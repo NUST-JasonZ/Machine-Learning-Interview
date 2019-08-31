@@ -1,0 +1,31 @@
+
+题目：某风电场每台风机的发电量和距离升压站的距离各不相同，如风机1:发电量30，距离20；风机2...要求在输电总距离限定的前提下，
+  选择风机向升压站书店，使得输送的电量最大。
+  输入：风机里升压站距离：30 20 35 40
+        风机发电量： 20 10 25 30
+        输电总距离的限制：50
+  输出：输送电量最大值
+思路：使用深度优先搜索，通过判断大于输送电量最大值来设置终止条件。
+代码：
+while True:
+    try:
+        distance = list(map(int, input().split()))
+        dian = list(map(int, input().split()))
+        zong = int(input())
+        result = 0
+        def helper(distance, dian, number, zong):
+            global result
+            if zong < 0:
+                if result < number:
+                    result = number
+                return
+            else:
+                for i in range(len(distance)):
+                    if zong - distance[i] < 0:
+                        helper(distance[:i] + distance[i+1:],dian[:i] + dian[i+1:], number, zong-distance[i])
+                    else:
+                        helper(distance[:i] + distance[i+1:], dian[:i] + dian[i+1:], number+dian[i], zong - distance[i])
+        helper(distance, dian, 0, zong)
+        print(result)
+    except:
+        break
